@@ -12,7 +12,7 @@ for frame in listOfFrames:
     frame_list.append(fullPath)
 
 doppelganger = None
-count = 0
+count = -1
 for i in range(len(frame_list)-1):
     checking = cv2.imread('frames/frame'+str(i)+'.jpg')
     if reference.shape == checking.shape:
@@ -25,12 +25,13 @@ for i in range(len(frame_list)-1):
             break
 
 frame_time = None
-with open('timestamps.csv','r') as f:
-    for line in f:
-        (frame,ms) = line.split(',')
-        if frame == count:
-            frame_time = ms
-            break
+f = open("timestamps.csv","r")
+for line in f:
+    (frame,ms) = line.split(',')
+    if frame == str(count):
+        frame_time = ms
+        f.close()
+        break
 print(frame_time)
 
 cv2.destroyAllWindows()
